@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kunal Shewale — Business Analyst & Product Owner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/framer-motion@11.0.8/dist/framer-motion.js"></script>
+<style>
+  :root{
+    --porcelain:#F6F3EC; --porcelain-2:#EFEBE0; --ink:#0E2A2B; --ink-2:#33514F;
+    --muted:#6E7F79; --line:#DED8C9; --coral:#FF5436; --coral-soft:#FFE4DC;
+    --sage:#7C9A82; --sage-soft:#E4EBE0; --white:#FFFDF8;
+    --violet:#6C5CE7; --violet-soft:#E6E2FB; --amber:#F5A524; --amber-soft:#FCEBC9; --teal:#12A594;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--porcelain);color:var(--ink);font-family:'Space Grotesk',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--coral);color:#fff}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .serif{font-family:'Fraunces',serif}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);font-weight:500}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  *:focus-visible{outline:2px solid var(--coral);outline-offset:3px;border-radius:4px}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+  #root{min-height:100vh}
+  .fallback{display:flex;align-items:center;justify-content:center;height:100vh;font-family:'JetBrains Mono',monospace;color:var(--muted)}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.035;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* ---- living section backgrounds ---- */
+  .sbg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+  .sbg > *{position:absolute}
+  section > .wrap{position:relative;z-index:2}
+
+  /* About — dot grid with a travelling colour wash */
+  .bg-grid{inset:-60px;background-image:radial-gradient(circle, var(--line) 1.5px, transparent 1.6px);background-size:32px 32px;
+    animation:gridDrift 20s linear infinite;opacity:0.7}
+  @keyframes gridDrift{to{transform:translate(32px,32px)}}
+  .bg-grid-glow{inset:-20%;background:radial-gradient(circle at 50% 50%, var(--violet-soft), transparent 45%);
+    opacity:0.55;animation:glowRoam 16s ease-in-out infinite}
+  @keyframes glowRoam{
+    0%{transform:translate(-18%,-10%)}25%{transform:translate(20%,8%)}
+    50%{transform:translate(10%,22%)}75%{transform:translate(-14%,12%)}100%{transform:translate(-18%,-10%)}}
+
+  /* Skills — three colour blobs orbiting into a mesh */
+  .bg-blob{border-radius:50%;filter:blur(64px);opacity:0.55;mix-blend-mode:multiply;animation:blobFloat 17s ease-in-out infinite}
+  @keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(60px,-40px) scale(1.18)}66%{transform:translate(-40px,30px) scale(0.9)}}
+
+  /* Product (dark) — rising sparks in warm/cool tones */
+  @keyframes rise{0%{transform:translateY(0) scale(1);opacity:0}12%{opacity:0.9}88%{opacity:0.6}100%{transform:translateY(-115vh) scale(0.6);opacity:0}}
+
+  /* Contact (dark) — layered aurora ribbons */
+  .bg-aurora{inset:-40%;background:conic-gradient(from 0deg at 50% 50%, transparent, rgba(108,92,231,0.30), transparent, rgba(18,165,148,0.28), transparent, rgba(245,165,36,0.22), transparent);
+    animation:spin 32s linear infinite;filter:blur(46px);opacity:0.9}
+  .bg-aurora.b2{inset:-30%;animation:spin 48s linear infinite reverse;opacity:0.5;
+    background:conic-gradient(from 120deg at 50% 50%, transparent, rgba(255,84,54,0.24), transparent, rgba(108,92,231,0.24), transparent)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Experience — colour-shifting timeline sweep */
+  .bg-sweep{top:0;bottom:0;width:46%;left:-46%;
+    background:linear-gradient(90deg,transparent,rgba(18,165,148,0.16),rgba(108,92,231,0.12),transparent);animation:sweep 8s ease-in-out infinite}
+  @keyframes sweep{0%{left:-46%}100%{left:104%}}
+
+  /* Tools — dual diagonal weave with tint */
+  .bg-diag{inset:-60px;background-image:repeating-linear-gradient(45deg, var(--line) 0 1px, transparent 1px 46px),repeating-linear-gradient(-45deg, var(--amber-soft) 0 1px, transparent 1px 46px);opacity:0.45;animation:diag 18s linear infinite}
+  @keyframes diag{to{transform:translate(46px,0)}}
+
+  /* Education — soft breathing halo */
+  .bg-halo{inset:-20%;background:radial-gradient(circle at 30% 40%, var(--teal), transparent 40%),radial-gradient(circle at 70% 60%, var(--amber-soft), transparent 45%);
+    opacity:0.18;animation:breathe 12s ease-in-out infinite;filter:blur(30px)}
+  @keyframes breathe{0%,100%{transform:scale(1);opacity:0.14}50%{transform:scale(1.15);opacity:0.24}}
+
+  /* Tools — drifting orbit blobs */
+  .bg-orbit{width:44vw;height:44vw;max-width:520px;max-height:520px;border-radius:50%;filter:blur(70px);opacity:0.4;mix-blend-mode:multiply}
+  .bg-orbit.o1{background:var(--violet-soft);top:-12%;left:-6%;animation:orbit1 22s ease-in-out infinite}
+  .bg-orbit.o2{background:var(--amber-soft);top:10%;right:-10%;animation:orbit2 26s ease-in-out infinite}
+  .bg-orbit.o3{background:var(--sage-soft);bottom:-18%;left:38%;animation:orbit3 30s ease-in-out infinite}
+  @keyframes orbit1{0%,100%{transform:translate(0,0)}50%{transform:translate(18vw,10vh)}}
+  @keyframes orbit2{0%,100%{transform:translate(0,0)}50%{transform:translate(-16vw,14vh)}}
+  @keyframes orbit3{0%,100%{transform:translate(0,0)}50%{transform:translate(-10vw,-12vh)}}
+
+  /* Tools — very subtle drifting colour wash */
+  .bg-wash{inset:-30%;border-radius:50%;filter:blur(90px);opacity:0.16;mix-blend-mode:multiply}
+  .bg-wash.w1{background:radial-gradient(circle at 40% 40%, var(--violet), transparent 60%);animation:wash1 28s ease-in-out infinite}
+  .bg-wash.w2{background:radial-gradient(circle at 60% 60%, var(--teal), transparent 60%);animation:wash2 34s ease-in-out infinite}
+  @keyframes wash1{0%,100%{transform:translate(-8%,-4%) scale(1)}50%{transform:translate(10%,8%) scale(1.15)}}
+  @keyframes wash2{0%,100%{transform:translate(6%,4%) scale(1.1)}50%{transform:translate(-8%,-6%) scale(0.95)}}
+
+  @media (prefers-reduced-motion: reduce){
+    .bg-grid,.bg-grid-glow,.bg-blob,.bg-aurora,.bg-sweep,.bg-diag,.bg-halo,.bg-orbit,.bg-wash,.node-canvas,.radar-svg *,.circuit-svg *{animation:none!important}
+    .pulse-cta{animation:none!important}
+  }
+  .pulse-cta{animation:ctaPulse 2.8s ease-in-out infinite}
+  @keyframes ctaPulse{0%,100%{box-shadow:0 12px 30px rgba(255,84,54,0.28)}50%{box-shadow:0 12px 42px rgba(255,84,54,0.5)}}
+
+  /* scroll progress tracer */
+  .scroll-tracer{position:fixed;top:0;left:0;height:3px;z-index:60;width:0;
+    background:linear-gradient(90deg,var(--teal),var(--violet),var(--coral));
+    box-shadow:0 0 12px rgba(108,92,231,0.5)}
+
+  /* cursor tracer — comet trail */
+  .comet-dot{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:9999;
+    transform:translate(-50%,-50%);will-change:transform,opacity}
+  .comet-head{width:12px;height:12px;background:var(--coral);box-shadow:0 0 14px rgba(255,84,54,0.8);transition:width .2s ease,height .2s ease,background .2s ease}
+  .comet-head.hot{width:20px;height:20px;background:var(--violet);box-shadow:0 0 22px rgba(108,92,231,0.9)}
+  .comet-halo{position:fixed;top:0;left:0;width:46px;height:46px;border-radius:50%;pointer-events:none;z-index:9998;
+    transform:translate(-50%,-50%);border:1.5px solid rgba(108,92,231,0.4);will-change:transform,opacity;transition:width .25s ease,height .25s ease,border-color .25s ease}
+  .comet-halo.hot{width:64px;height:64px;border-color:rgba(18,165,148,0.55)}
+  @media (hover:none),(pointer:coarse){.comet-dot,.comet-halo{display:none}}
+  @media (prefers-reduced-motion: reduce){.comet-dot,.comet-halo{display:none}}
+
+  /* reusable hover-highlight */
+  .hov{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s ease,border-color .3s ease,background .3s ease}
+  .hov:hover{transform:translateY(-5px);border-color:var(--coral)!important;box-shadow:0 20px 44px rgba(14,42,43,0.12)}
+  .hov-dark:hover{border-color:var(--coral)!important;background:rgba(246,243,236,0.08)!important;box-shadow:0 20px 44px rgba(0,0,0,0.28)}
+  /* metric hover */
+  .metric{transition:transform .3s cubic-bezier(.22,1,.36,1);cursor:default;border-radius:14px;padding:10px 12px;margin:-10px -12px}
+  .metric:hover{transform:translateY(-4px)}
+  .metric:hover .metric-v{color:var(--coral)}
+  .metric .metric-v{transition:color .3s ease}
+  .metric:hover .metric-bar{width:100%}
+  .metric-bar{height:2px;width:0;background:var(--coral);border-radius:2px;margin-top:12px;transition:width .4s cubic-bezier(.22,1,.36,1)}
+
+  /* how-i-work row hover */
+  .hiw-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--coral);transform:scaleY(0);transform-origin:top;transition:transform .28s ease}
+  .hiw-row:hover{background:var(--porcelain);padding-left:32px}
+  .hiw-row:hover::before{transform:scaleY(1)}
+  .hiw-row:hover .hiw-num{transform:scale(1.25)}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div id="root"><div class="fallback">Preparing the case file…</div></div>
+<script type="text/babel">
+const {motion, AnimatePresence, useMotionValue, useSpring, useScroll, useTransform} = window.Motion;
+const {useState, useEffect, useRef} = React;
+
+/* ---------------- DATA — Kunal Shewale ---------------- */
+const NAME = "Kunal Shewale";
+
+const SECTIONS = [
+  {id:"about", n:"01", label:"About"},
+  {id:"experience", n:"02", label:"Experience"},
+  {id:"skills", n:"03", label:"BA Skills"},
+  {id:"product", n:"04", label:"Product"},
+  {id:"work", n:"05", label:"Case Studies"},
+  {id:"education", n:"06", label:"Education"},
+  {id:"tools", n:"07", label:"Tools"},
+  {id:"contact", n:"08", label:"Contact"},
+];
+
+const METRICS = [
+  {v:"3+", u:"yrs", l:"business analysis & data delivery"},
+  {v:"15+", u:"", l:"SaaS modules analysed end-to-end"},
+  {v:"50+", u:"", l:"BRDs, FRDs, SRS & story artefacts"},
+  {v:"95", u:"%", l:"requirement compliance via UAT"},
+];
+
+const EXPERIENCE = [
+  {role:"Business Analyst", org:"Innovador Infotech Pvt. Ltd.", period:"Oct 2025 — Present", loc:"Panaji, Goa", tag:"SaaS",
+   points:["Led requirement gathering for 15+ SaaS modules, translating business needs into functional and technical specs and cutting development rework by 40%.",
+           "Authored 50+ artefacts — BRDs, FRDs, SRS, user stories, acceptance criteria, and process flows — with end-to-end traceability.",
+           "Facilitated stakeholder workshops and clarification sessions, reducing requirement-related queries by 30%.",
+           "Built Figma & Whimsical wireframes that accelerated sign-off by 60%, and coordinated UAT to reach 95%+ compliance."]},
+  {role:"Business Analyst", org:"Bajaj Finserv", period:"Jul 2024 — Sep 2025", loc:"Pune, Maharashtra", tag:"BFSI",
+   points:["Documented business requirements for Salesforce initiatives across the BFSI domain, authoring 40+ user stories, BRDs, FRDs, and SOPs.",
+           "Ran SQL and Excel analysis, and executed functional & API testing (Postman) with a 95%+ defect-detection rate pre-production.",
+           "Built Power BI dashboards and reports, cutting manual reporting effort by 40% and sharpening KPI visibility.",
+           "Reduced requirement-related delivery delays by 20% through Agile collaboration and workflow gap analysis."]},
+  {role:"Data Science Consultant", org:"Rubixe", period:"Aug 2023 — May 2024", loc:"Pune, Maharashtra", tag:"Analytics",
+   points:["Analysed datasets of 1M+ records to surface trends, insights, and process-improvement opportunities.",
+           "Built 5+ Power BI dashboards and Excel reports, reducing manual reporting effort by ~40%.",
+           "Developed and evaluated ML models for predictive use cases, improving performance ~12% via feature engineering."]},
+];
+
+const BA_SKILLS = [
+  {t:"Requirement Gathering", d:"Elicitation, product analysis, and turning the request behind the request into build-ready inputs."},
+  {t:"Documentation", d:"BRDs, FRDs, SRS, user stories, acceptance criteria, and functional/technical specs with full traceability."},
+  {t:"Gap & Workflow Analysis", d:"Process mapping, as-is/to-be flows, and risk analysis to expose inefficiencies early."},
+  {t:"Stakeholder Management", d:"Workshops, clarification sessions, and alignment across business, product, and engineering."},
+  {t:"Data & Reporting", d:"SQL, Excel, Google Sheets, and Power BI to define KPIs and drive data-backed decisions."},
+  {t:"Agile Delivery & UAT", d:"Sprint planning, backlog grooming, Scrum collaboration, UAT, and defect management."},
+];
+
+const PO_PILLARS = [
+  {n:"01",t:"Prioritization", d:"I help teams decide what matters most — separating the loud request from the high-impact one, and sequencing work around business value."},
+  {n:"02",t:"Requirements as Bets", d:"I turn ideas into executable requirements with clean inputs and clear acceptance criteria, so the delivery team's job gets easier."},
+  {n:"03",t:"User Journeys & Flows", d:"I clarify user journeys and process flows so everyone shares one picture of how the product actually behaves."},
+  {n:"04",t:"Stakeholder Alignment", d:"I keep business, product, and technology honest about scope and value through structure, visibility, and steady communication."},
+];
+
+const CASES = [
+  {tag:"SaaS · Innovador Infotech",title:"Cutting development rework across 15+ modules",
+   problem:"Ambiguous requirements across a growing SaaS suite were driving rework and slow, uncertain sign-offs.",
+   approach:"Led structured requirement gathering, ran stakeholder workshops, and mapped workflows to expose inefficiencies and risks.",
+   solution:"Authored 50+ traceable artefacts and produced Figma/Whimsical wireframes to make scope tangible before build.",
+   outcome:"Development rework fell 40%, requirement queries dropped 30%, and stakeholder sign-off accelerated 60%.",
+   metric:"−40%", metricL:"dev rework"},
+  {tag:"BFSI · Bajaj Finserv",title:"Bringing KPI visibility to Salesforce operations",
+   problem:"Business teams lacked reliable visibility into operational KPIs and leaned on slow, manual reporting.",
+   approach:"Gathered requirements for Salesforce initiatives, analysed data with SQL and Excel, and identified process gaps.",
+   solution:"Built Power BI dashboards and reports, and validated integrations with functional & API testing in Postman.",
+   outcome:"Manual reporting effort dropped 40%, defect detection reached 95%+ pre-production, and delivery delays fell 20%.",
+   metric:"95%+", metricL:"defect detection"},
+  {tag:"Analytics · Rubixe",title:"Turning 1M+ records into decisions",
+   problem:"Large, messy datasets held useful signal but weren't translating into reliable business insight.",
+   approach:"Analysed 1M+ records, collaborated on data-quality fixes, and framed predictive use cases worth testing.",
+   solution:"Delivered 5+ Power BI dashboards and Excel reports, and built/evaluated ML models with feature engineering.",
+   outcome:"Reporting effort fell ~40%, accuracy improved, and model performance rose ~12%.",
+   metric:"1M+", metricL:"records analysed"},
+];
+
+const EDUCATION = [
+  {t:"Bachelor of Engineering — Computer Science", org:"Late G. N. Sapkal College of Engineering, Nashik", y:"Aug 2019 — Jul 2023"},
+];
+
+const TOOL_GROUPS = [
+  {g:"Analysis & Delivery", items:["Jira","Confluence","Salesforce","Scrum","Postman"]},
+  {g:"Data & Reporting", items:["SQL","Excel","Power BI","Google Sheets"]},
+  {g:"Design & Wireframing", items:["Figma","FigJam","Whimsical"]},
+];
+
+/* ---------------- Living backgrounds ---------------- */
+function NodeCanvas({dark}){
+  const ref=useRef(null);
+  useEffect(()=>{
+    const c=ref.current; if(!c) return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ctx=c.getContext('2d'); let raf, w, h;
+    const DPR=Math.min(window.devicePixelRatio||1,2);
+    const N=Math.min(46, Math.floor((window.innerWidth||1000)/26));
+    let pts=[];
+    const init=()=>{
+      w=c.clientWidth; h=c.clientHeight; c.width=w*DPR; c.height=h*DPR; ctx.scale(DPR,DPR);
+      pts=Array.from({length:N},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.28,vy:(Math.random()-0.5)*0.28}));
+    };
+    const palette = dark
+      ? [[124,154,130],[108,92,231],[18,165,148]]
+      : [[255,84,54],[108,92,231],[18,165,148]];
+    const dot = dark?'246,243,236':'14,42,43';
+    const draw=()=>{
+      ctx.clearRect(0,0,w,h);
+      for(let i=0;i<N;i++){
+        const p=pts[i]; p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>w)p.vx*=-1; if(p.y<0||p.y>h)p.vy*=-1;
+        for(let j=i+1;j<N;j++){
+          const q=pts[j], dx=p.x-q.x, dy=p.y-q.y, d=Math.hypot(dx,dy);
+          if(d<138){
+            const col=palette[(i+j)%palette.length];
+            ctx.strokeStyle=`rgba(${col[0]},${col[1]},${col[2]},${0.22*(1-d/138)})`;
+            ctx.lineWidth=1.1;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();
+          }
+        }
+      }
+      pts.forEach((p,i)=>{const col=palette[i%palette.length];ctx.fillStyle=`rgba(${col[0]},${col[1]},${col[2]},0.55)`;ctx.beginPath();ctx.arc(p.x,p.y,2,0,7);ctx.fill();});
+      raf=requestAnimationFrame(draw);
+    };
+    init(); draw();
+    const onR=()=>{cancelAnimationFrame(raf);ctx.setTransform(1,0,0,1,0,0);init();draw();};
+    window.addEventListener('resize',onR);
+    return ()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',onR);};
+  },[dark]);
+  return <canvas ref={ref} className="node-canvas" style={{width:'100%',height:'100%',opacity:0.9}}/>;
+}
+
+function Particles(){
+  const cols=['rgba(255,84,54,','rgba(108,92,231,','rgba(18,165,148,','rgba(245,165,36,','rgba(246,243,236,'];
+  const items=React.useMemo(()=>Array.from({length:22},(_,i)=>({
+    left:Math.random()*100, size:2+Math.random()*5, dur:13+Math.random()*15, delay:-Math.random()*30,
+    o:0.3+Math.random()*0.45, c:cols[i%cols.length]
+  })),[]);
+  return items.map((p,i)=>(
+    <span key={i} style={{bottom:-12,left:p.left+'%',width:p.size,height:p.size,borderRadius:'50%',
+      background:p.c+p.o+')',boxShadow:'0 0 '+(p.size*2)+'px '+p.c+(p.o*0.6)+')',
+      animation:`rise ${p.dur}s linear ${p.delay}s infinite`}}/>
+  ));
+}
+
+function CircuitBG(){
+  // animated "circuit" — horizontal traces with pulses travelling along them
+  const rows=React.useMemo(()=>Array.from({length:7},(_,i)=>({
+    y:8+i*13.5, dur:6+Math.random()*6, delay:-Math.random()*8,
+    c:['var(--teal)','var(--violet)','var(--coral)','var(--amber)'][i%4],
+    dir:i%2===0?1:-1
+  })),[]);
+  return (
+    <svg className="circuit-svg" width="100%" height="100%" style={{opacity:0.42}} preserveAspectRatio="none" viewBox="0 0 100 100">
+      {rows.map((r,i)=>(
+        <g key={i}>
+          <line x1="0" y1={r.y} x2="100" y2={r.y} stroke="var(--line)" strokeWidth="0.25"/>
+          {/* node bumps */}
+          {[20,50,80].map((x,j)=>(<circle key={j} cx={x} cy={r.y} r="0.7" fill={r.c} opacity="0.5"/>))}
+          {/* travelling pulse */}
+          <circle r="1.1" fill={r.c}>
+            <animate attributeName="cx" from={r.dir>0?"0":"100"} to={r.dir>0?"100":"0"} dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite"/>
+            <animate attributeName="cy" values={`${r.y};${r.y}`} dur={`${r.dur}s`} repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0;1;1;0" dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite"/>
+          </circle>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function RadarBG(){
+  // concentric analysis "radar" — expanding rings + a slow sweep beam + drifting plot points
+  const pts=React.useMemo(()=>Array.from({length:9},()=>({
+    cx:15+Math.random()*70, cy:15+Math.random()*70, r:1.6+Math.random()*2.2,
+    dur:5+Math.random()*5, delay:-Math.random()*6,
+    c:['var(--teal)','var(--violet)','var(--coral)','var(--amber)'][Math.floor(Math.random()*4)]
+  })),[]);
+  return (
+    <svg className="radar-svg" width="100%" height="100%" style={{opacity:0.32}} preserveAspectRatio="xMidYMid slice" viewBox="0 0 100 100">
+      <defs>
+        <radialGradient id="beam" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="var(--violet)" stopOpacity="0.16"/>
+          <stop offset="70%" stopColor="var(--teal)" stopOpacity="0.04"/>
+          <stop offset="100%" stopColor="var(--teal)" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      {/* expanding rings */}
+      {[0,1,2].map(i=>(
+        <circle key={i} cx="50" cy="50" r="6" fill="none" stroke="var(--teal)" strokeWidth="0.3">
+          <animate attributeName="r" values="6;46" dur="9s" begin={`${i*3}s`} repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.4;0" dur="9s" begin={`${i*3}s`} repeatCount="indefinite"/>
+        </circle>
+      ))}
+      {/* rotating sweep beam */}
+      <g style={{transformOrigin:'50px 50px'}}>
+        <path d="M50 50 L50 2 A48 48 0 0 1 92 34 Z" fill="url(#beam)">
+          <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="14s" repeatCount="indefinite"/>
+        </path>
+      </g>
+      {/* drifting plot points */}
+      {pts.map((p,i)=>(
+        <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill={p.c}>
+          <animate attributeName="opacity" values="0.15;0.7;0.15" dur={`${p.dur+2}s`} begin={`${p.delay}s`} repeatCount="indefinite"/>
+        </circle>
+      ))}
+    </svg>
+  );
+}
+
+function SectionBG({variant, dark}){
+  if(variant==='nodes')   return <div className="sbg"><NodeCanvas dark={dark}/></div>;
+  if(variant==='grid')    return <div className="sbg"><div className="bg-grid-glow"/><div className="bg-grid"/></div>;
+  if(variant==='sweep')   return <div className="sbg"><div className="bg-sweep"/></div>;
+  if(variant==='mesh')    return <div className="sbg">
+      <div className="bg-blob" style={{width:360,height:360,background:'var(--coral-soft)',top:'-10%',right:'4%'}}/>
+      <div className="bg-blob" style={{width:320,height:320,background:'var(--violet-soft)',top:'20%',left:'-4%',animationDelay:'-6s'}}/>
+      <div className="bg-blob" style={{width:300,height:300,background:'var(--sage-soft)',bottom:'-12%',left:'40%',animationDelay:'-11s'}}/>
+    </div>;
+  if(variant==='particles')return <div className="sbg"><Particles/></div>;
+  if(variant==='flow')    return <div className="sbg"><RadarBG/></div>;
+  if(variant==='diag')    return <div className="sbg"><div className="bg-diag"/></div>;
+  if(variant==='orbit')   return <div className="sbg">
+      <div className="bg-orbit o1"/><div className="bg-orbit o2"/><div className="bg-orbit o3"/>
+    </div>;
+  if(variant==='circuit') return <div className="sbg"><CircuitBG/></div>;
+  if(variant==='driftwash') return <div className="sbg">
+      <div className="bg-wash w1"/><div className="bg-wash w2"/>
+    </div>;
+  if(variant==='halo')    return <div className="sbg"><div className="bg-halo"/></div>;
+  if(variant==='aurora')  return <div className="sbg"><div className="bg-aurora"/><div className="bg-aurora b2"/></div>;
+  return null;
+}
+
+/* ---------------- Primitives ---------------- */
+const Reveal = ({children, delay=0, y=28}) => (
+  <motion.div initial={{opacity:0, y}} whileInView={{opacity:1, y:0}}
+    viewport={{once:true, margin:"-60px"}}
+    transition={{duration:0.7, delay, ease:[0.22,1,0.36,1]}}>{children}</motion.div>
+);
+
+function SectionHead({n, kicker, title}){
+  return (
+    <div style={{marginBottom:52}}>
+      <Reveal>
+        <div style={{display:'flex',alignItems:'baseline',gap:20,marginBottom:6}}>
+          <span className="serif" style={{fontSize:'clamp(40px,7vw,88px)',fontWeight:600,color:'var(--coral)',lineHeight:0.9,fontStyle:'italic'}}>{n}</span>
+          <span className="eyebrow">{kicker}</span>
+        </div>
+        <h2 className="serif" style={{fontSize:'clamp(30px,4.6vw,52px)',fontWeight:500,letterSpacing:'-0.01em',lineHeight:1.05,maxWidth:820}}>{title}</h2>
+      </Reveal>
+    </div>
+  );
+}
+
+const Section = ({id, children, style, bg, dark}) => (
+  <section id={id} style={{padding:'clamp(64px,9vw,120px) 0',position:'relative',overflow:'hidden',...style}}>
+    {bg && <SectionBG variant={bg} dark={dark}/>}
+    <div className="wrap">{children}</div>
+  </section>
+);
+
+/* ---------------- Sticky rail navigator ---------------- */
+function Rail({active}){
+  return (
+    <nav className="rail" aria-label="Section navigation"
+      style={{position:'fixed',left:36,top:'50%',transform:'translateY(-50%)',zIndex:40}}>
+      <ul className="rail-list">
+        {SECTIONS.map((s)=>{
+          const on = active===s.id;
+          return (
+            <li key={s.id}>
+              <a href={"#"+s.id} className={"rail-link"+(on?" on":"")} aria-current={on?"true":undefined}>
+                <span className="rail-marker" aria-hidden="true">
+                  {on && <motion.span layoutId="rail-active" className="rail-marker-line"
+                    transition={{type:'spring',stiffness:380,damping:32}}/>}
+                </span>
+                <span className="rail-label">{s.label}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <style>{`
+        .rail-list{list-style:none;display:flex;flex-direction:column;gap:2px;margin:0;padding:0}
+        .rail-link{display:flex;align-items:center;gap:14px;padding:6px 0;text-decoration:none;position:relative}
+        /* marker: a short hairline that grows + colours when active */
+        .rail-marker{position:relative;width:24px;height:1.5px;flex-shrink:0;
+          background:var(--ink);opacity:0.18;border-radius:2px;transition:opacity .35s ease,width .35s ease}
+        .rail-marker-line{position:absolute;left:0;top:50%;transform:translateY(-50%);
+          width:38px;height:1.5px;border-radius:2px;background:var(--coral)}
+        .rail-label{font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:500;letter-spacing:0.2px;
+          color:var(--ink);opacity:0.35;white-space:nowrap;
+          transition:opacity .35s ease,transform .35s ease,color .35s ease;transform-origin:left}
+        /* active */
+        .rail-link.on .rail-marker{opacity:0;width:38px}
+        .rail-link.on .rail-label{opacity:1;color:var(--ink);transform:translateX(16px)}
+        /* hover (non-active) */
+        .rail-link:hover .rail-marker{opacity:0.5;width:32px}
+        .rail-link:hover .rail-label{opacity:0.8;transform:translateX(4px)}
+        .rail-link.on:hover .rail-label{transform:translateX(16px)}
+        .rail-link:focus-visible{outline:2px solid var(--coral);outline-offset:4px;border-radius:4px}
+        @media(max-width:1180px){.rail{display:none!important}}
+      `}</style>
+    </nav>
+  );
+}
+
+/* ---------------- Top bar ---------------- */
+function TopBar(){
+  const [scrolled,setScrolled]=useState(false);
+  useEffect(()=>{const f=()=>setScrolled(window.scrollY>30);window.addEventListener('scroll',f);return()=>window.removeEventListener('scroll',f)},[]);
+  return (
+    <motion.header initial={{y:-60,opacity:0}} animate={{y:0,opacity:1}} transition={{duration:0.8,ease:[0.22,1,0.36,1]}}
+      style={{position:'fixed',top:0,left:0,right:0,zIndex:50,
+        background:scrolled?'rgba(246,243,236,0.85)':'transparent',backdropFilter:scrolled?'blur(10px)':'none',
+        borderBottom:'1px solid '+(scrolled?'var(--line)':'transparent'),transition:'all .4s ease'}}>
+      <div className="wrap" style={{height:70,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <a href="#top" className="serif" style={{fontWeight:600,fontSize:21,letterSpacing:'-0.01em'}}>
+          Kunal Shewale<span style={{color:'var(--coral)'}}>.</span>
+        </a>
+        <div style={{display:'flex',alignItems:'center',gap:22}}>
+          <span className="mono topAvail" style={{fontSize:11.5,color:'var(--ink-2)',display:'flex',alignItems:'center',gap:8}}>
+            <span style={{width:7,height:7,borderRadius:'50%',background:'var(--sage)',boxShadow:'0 0 0 3px var(--sage-soft)'}}/>Open to opportunities
+          </span>
+          <a href="#contact" className="mono" style={{fontSize:12.5,fontWeight:600,padding:'10px 18px',borderRadius:100,background:'var(--ink)',color:'var(--porcelain)'}}>Get in touch</a>
+        </div>
+      </div>
+      <style>{`@media(max-width:640px){.topAvail{display:none!important}}`}</style>
+    </motion.header>
+  );
+}
+
+/* ---------------- Hero ---------------- */
+function Hero(){
+  const mx=useMotionValue(0), my=useMotionValue(0);
+  const sx=useSpring(mx,{stiffness:50,damping:18}), sy=useSpring(my,{stiffness:50,damping:18});
+  const onMove=e=>{const r=e.currentTarget.getBoundingClientRect();mx.set((e.clientX-r.left-r.width/2)/40);my.set((e.clientY-r.top-r.height/2)/40)};
+  return (
+    <section id="top" onMouseMove={onMove} style={{position:'relative',paddingTop:'clamp(130px,18vh,190px)',paddingBottom:'clamp(60px,8vw,90px)',overflow:'hidden'}}>
+      {/* living node graph */}
+      <div className="sbg"><NodeCanvas dark={false}/></div>
+      {/* ambient shapes */}
+      <motion.div aria-hidden style={{position:'absolute',right:'-6%',top:'8%',width:520,height:520,borderRadius:'50%',x:sx,y:sy,
+        background:'radial-gradient(circle at 30% 30%, var(--coral-soft), transparent 62%)',filter:'blur(8px)',zIndex:0}}/>
+      <motion.div aria-hidden style={{position:'absolute',left:'-8%',bottom:'-4%',width:420,height:420,borderRadius:'50%',x:sx,y:sy,
+        background:'radial-gradient(circle at 60% 40%, var(--sage-soft), transparent 60%)',filter:'blur(6px)',zIndex:0}}/>
+
+      <div className="wrap" style={{position:'relative',zIndex:2}}>
+        <motion.div initial={{opacity:0,y:14}} animate={{opacity:1,y:0}} transition={{delay:0.15,duration:0.6}}
+          className="eyebrow" style={{marginBottom:26}}>Business Analyst · Product Owner · SaaS & BFSI</motion.div>
+
+        <h1 className="serif" style={{fontSize:'clamp(44px,8.5vw,116px)',fontWeight:500,letterSpacing:'-0.025em',lineHeight:0.98,maxWidth:1050}}>
+          {["I turn business", "complexity into"].map((line,i)=>(
+            <span key={i} style={{display:'block',overflow:'hidden'}}>
+              <motion.span style={{display:'inline-block'}} initial={{y:'110%'}} animate={{y:0}}
+                transition={{delay:0.25+i*0.1,duration:0.85,ease:[0.22,1,0.36,1]}}>{line}</motion.span>
+            </span>
+          ))}
+          <span style={{display:'block',overflow:'hidden'}}>
+            <motion.span style={{display:'inline-block'}} initial={{y:'110%'}} animate={{y:0}}
+              transition={{delay:0.45,duration:0.85,ease:[0.22,1,0.36,1]}}>
+              <span style={{fontStyle:'italic',color:'var(--coral)'}}>clear</span> product <span style={{fontStyle:'italic',color:'var(--coral)'}}>decisions</span>.
+            </motion.span>
+          </span>
+        </h1>
+
+        <div style={{display:'flex',flexWrap:'wrap',gap:'40px 60px',marginTop:44,alignItems:'flex-end'}}>
+          <motion.p initial={{opacity:0}} animate={{opacity:1}} transition={{delay:0.8,duration:0.7}}
+            style={{fontSize:'clamp(16px,1.7vw,18.5px)',lineHeight:1.65,color:'var(--ink-2)',maxWidth:430}}>
+            I'm {NAME} — bridging business needs and technical execution through requirement gathering, process analysis, stakeholder alignment, Agile delivery, and data-driven decisions. I build clarity where teams need it most.
+          </motion.p>
+          <motion.div initial={{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{delay:0.95,duration:0.6}}
+            style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+            <a href="#work" className="mono heroBtn pulse-cta" style={{fontSize:13,fontWeight:600,padding:'15px 26px',borderRadius:100,background:'var(--coral)',color:'#fff',boxShadow:'0 12px 30px rgba(255,84,54,0.28)'}}>View case studies →</a>
+            <a href="#contact" className="mono heroBtn" style={{fontSize:13,fontWeight:600,padding:'15px 26px',borderRadius:100,background:'transparent',border:'1.5px solid var(--ink)',color:'var(--ink)'}}>Let's connect</a>
+          </motion.div>
+        </div>
+
+        {/* metric ribbon */}
+        <motion.div initial={{opacity:0,y:24}} animate={{opacity:1,y:0}} transition={{delay:1.1,duration:0.7}}
+          style={{marginTop:'clamp(56px,7vw,84px)',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:'clamp(20px,3vw,40px)',borderTop:'1.5px solid var(--ink)',paddingTop:28}}>
+          {METRICS.map((m,i)=>(
+            <div key={i} className="metric">
+              <div className="serif metric-v" style={{fontSize:'clamp(38px,4.5vw,56px)',fontWeight:600,letterSpacing:'-0.02em',lineHeight:1}}>
+                {m.v}<span style={{color:'var(--coral)',fontStyle:'italic',fontSize:'0.6em'}}>{m.u}</span>
+              </div>
+              <div style={{fontSize:13,color:'var(--muted)',marginTop:10,lineHeight:1.45,maxWidth:180}}>{m.l}</div>
+              <div className="metric-bar"/>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+      <style>{`.heroBtn{transition:transform .2s ease} .heroBtn:hover{transform:translateY(-2px)}`}</style>
+    </section>
+  );
+}
+
+/* ---------------- About ---------------- */
+function About(){
+  return (
+    <Section id="about" bg="grid">
+      <SectionHead n="01" kicker="Profile" title="Clarity where teams need it most" />
+      <div style={{display:'grid',gridTemplateColumns:'1.15fr 0.85fr',gap:'clamp(28px,5vw,72px)',alignItems:'start'}} className="twoCol">
+        <Reveal>
+          <div>
+            <p className="serif" style={{fontSize:'clamp(22px,2.8vw,30px)',lineHeight:1.35,fontWeight:400,letterSpacing:'-0.01em'}}>
+              I understand the problem <span style={{fontStyle:'italic',color:'var(--coral)'}}>behind</span> the request — then turn it into something a team can build with confidence.
+            </p>
+            <p style={{marginTop:26,fontSize:16.5,lineHeight:1.75,color:'var(--ink-2)'}}>
+              I'm a Business Analyst with experience across SaaS and BFSI, focused on translating business challenges into functional solutions. That means BRDs, FRDs, SRS documents, user stories, acceptance criteria, and workflows — implementation-ready inputs that keep delivery aligned with business goals.
+            </p>
+            <p style={{marginTop:16,fontSize:16.5,lineHeight:1.75,color:'var(--ink-2)'}}>
+              I work closely with stakeholders, product, design, engineering, and QA, and bring a strong data mindset with SQL, Excel, and Power BI. Whether it's improving a process, validating a solution, or defining a KPI, I like work that's structured, practical, and measurable.
+            </p>
+          </div>
+        </Reveal>
+        <Reveal delay={0.12}>
+          <div style={{background:'var(--white)',border:'1px solid var(--line)',borderRadius:20,overflow:'hidden',boxShadow:'0 20px 50px rgba(14,42,43,0.06)'}}>
+            <div style={{padding:'18px 24px',borderBottom:'1px solid var(--line)',display:'flex',alignItems:'center',gap:8}}>
+              <span style={{display:'flex',gap:5}}>
+                <span style={{width:9,height:9,borderRadius:'50%',background:'var(--coral)'}}/>
+                <span style={{width:9,height:9,borderRadius:'50%',background:'var(--sage)'}}/>
+                <span style={{width:9,height:9,borderRadius:'50%',background:'var(--line)'}}/>
+              </span>
+              <span className="mono" style={{fontSize:11,color:'var(--muted)',letterSpacing:1,marginLeft:4}}>how_i_work.md</span>
+            </div>
+            {[["Understand","Find the problem behind the request"],
+              ["Analyze","Map process, data, gaps, and risk"],
+              ["Prioritize","Sequence by impact, not volume"],
+              ["Deliver","Clean inputs, UAT, validated outcomes"]].map((s,i)=>(
+              <div key={i} className="hiw-row" style={{display:'flex',gap:18,padding:'20px 24px',borderBottom:i<3?'1px solid var(--line)':'none',position:'relative',transition:'background .28s ease,padding-left .28s ease'}}>
+                <span className="mono hiw-num" style={{fontSize:12,color:'var(--coral)',fontWeight:600,marginTop:3,transition:'transform .28s ease'}}>{`0${i+1}`}</span>
+                <div>
+                  <div className="serif" style={{fontSize:18,fontWeight:600}}>{s[0]}</div>
+                  <div style={{fontSize:14,color:'var(--muted)',marginTop:3}}>{s[1]}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+      <style>{`@media(max-width:860px){.twoCol{grid-template-columns:1fr!important}}`}</style>
+    </Section>
+  );
+}
+
+/* ---------------- Experience ---------------- */
+function Experience(){
+  return (
+    <Section id="experience" bg="sweep" style={{background:'var(--porcelain-2)'}}>
+      <SectionHead n="02" kicker="Track Record" title="Impact, not just responsibilities" />
+      <div style={{display:'flex',flexDirection:'column',gap:20}}>
+        {EXPERIENCE.map((e,i)=>(
+          <Reveal key={i} delay={i*0.08}>
+            <div className="hov"
+              style={{background:'var(--white)',border:'1px solid var(--line)',borderRadius:20,padding:'clamp(24px,3vw,38px)',boxShadow:'0 4px 18px rgba(14,42,43,0.04)'}}>
+              <div style={{display:'grid',gridTemplateColumns:'auto 1fr',gap:'clamp(20px,4vw,56px)'}} className="expRow">
+                <div style={{minWidth:0}}>
+                  <span className="mono" style={{fontSize:10.5,letterSpacing:1.5,color:'var(--coral)',background:'var(--coral-soft)',padding:'4px 10px',borderRadius:100}}>{e.tag}</span>
+                  <h3 className="serif" style={{fontSize:'clamp(22px,2.6vw,28px)',fontWeight:600,marginTop:16,lineHeight:1.1}}>{e.role}</h3>
+                  <div style={{fontSize:15.5,color:'var(--ink)',fontWeight:500,marginTop:6}}>{e.org}</div>
+                  <div className="mono" style={{fontSize:12,color:'var(--muted)',marginTop:10,lineHeight:1.7}}>{e.period}<br/>{e.loc}</div>
+                </div>
+                <ul style={{listStyle:'none',display:'flex',flexDirection:'column',gap:13,alignSelf:'center'}}>
+                  {e.points.map((p,j)=>(
+                    <li key={j} style={{display:'flex',gap:13,fontSize:15,lineHeight:1.6,color:'var(--ink-2)'}}>
+                      <span style={{color:'var(--coral)',marginTop:7,flexShrink:0,width:6,height:6,borderRadius:'50%',background:'var(--coral)'}}/>{p}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <style>{`@media(max-width:720px){.expRow{grid-template-columns:1fr!important}}`}</style>
+    </Section>
+  );
+}
+
+/* ---------------- Skills ---------------- */
+function Skills(){
+  return (
+    <Section id="skills" bg="mesh">
+      <SectionHead n="03" kicker="Core Competencies" title="What I do best" />
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))',gap:0,border:'1px solid var(--line)',borderRadius:20,overflow:'hidden',background:'var(--line)'}} className="skillGrid">
+        {BA_SKILLS.map((s,i)=>(
+          <motion.div key={i} initial={{opacity:0}} whileInView={{opacity:1}} viewport={{once:true}} transition={{delay:i*0.06,duration:0.5}}
+            className="skillCell"
+            style={{background:'var(--white)',padding:'32px 30px',position:'relative',transition:'background .3s',overflow:'hidden'}}>
+            <span className="serif skillNum" style={{fontSize:15,fontStyle:'italic',color:'var(--coral)',display:'inline-block',transition:'transform .3s ease'}}>{`S0${i+1}`}</span>
+            <h3 className="serif" style={{fontSize:21,fontWeight:600,margin:'14px 0 10px'}}>{s.t}</h3>
+            <p style={{fontSize:14.5,lineHeight:1.65,color:'var(--ink-2)'}}>{s.d}</p>
+          </motion.div>
+        ))}
+      </div>
+      <style>{`
+        .skillCell::after{content:'';position:absolute;left:0;top:0;height:3px;width:0;background:var(--coral);transition:width .35s cubic-bezier(.22,1,.36,1)}
+        .skillCell:hover{background:var(--porcelain)!important}
+        .skillCell:hover::after{width:100%}
+        .skillCell:hover .skillNum{transform:translateX(4px) scale(1.15)}
+      `}</style>
+    </Section>
+  );
+}
+
+/* ---------------- Product ---------------- */
+function Product(){
+  return (
+    <Section id="product" bg="particles" dark style={{background:'var(--ink)',color:'var(--porcelain)'}}>
+      <div style={{marginBottom:52}}>
+        <Reveal>
+          <div style={{display:'flex',alignItems:'baseline',gap:20,marginBottom:6}}>
+            <span className="serif" style={{fontSize:'clamp(40px,7vw,88px)',fontWeight:600,color:'var(--coral)',lineHeight:0.9,fontStyle:'italic'}}>04</span>
+            <span className="eyebrow">Product Thinking</span>
+          </div>
+          <h2 className="serif" style={{fontSize:'clamp(30px,4.6vw,52px)',fontWeight:500,letterSpacing:'-0.01em',lineHeight:1.1,maxWidth:900}}>
+            I think like a <span style={{fontStyle:'italic',color:'var(--coral)'}}>Product Owner</span> when prioritizing, and like a <span style={{fontStyle:'italic',color:'var(--sage)'}}>Business Analyst</span> when defining.
+          </h2>
+        </Reveal>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20}}>
+        {PO_PILLARS.map((p,i)=>(
+          <Reveal key={i} delay={i*0.08}>
+            <div className="hov hov-dark po-card"
+              style={{border:'1px solid rgba(246,243,236,0.16)',borderRadius:18,padding:30,height:'100%',background:'rgba(246,243,236,0.03)'}}>
+              <div className="serif po-num" style={{fontSize:40,fontWeight:600,fontStyle:'italic',color:'var(--coral)',lineHeight:1,transition:'transform .3s ease'}}>{p.n}</div>
+              <h3 className="serif" style={{fontSize:22,fontWeight:600,marginTop:16}}>{p.t}</h3>
+              <p style={{fontSize:14.5,lineHeight:1.7,marginTop:12,color:'rgba(246,243,236,0.68)'}}>{p.d}</p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <style>{`.po-card:hover .po-num{transform:scale(1.14) translateX(3px)}`}</style>
+    </Section>
+  );
+}
+
+/* ---------------- Case studies ---------------- */
+function Work(){
+  const [open,setOpen]=useState(0);
+  return (
+    <Section id="work" bg="flow">
+      <SectionHead n="05" kicker="Selected Work" title="Problem, approach, solution, outcome" />
+      <div style={{display:'flex',flexDirection:'column',gap:16}}>
+        {CASES.map((c,i)=>{
+          const on = open===i;
+          return (
+            <Reveal key={i} delay={i*0.06}>
+              <div className="case-row" style={{background:on?'var(--white)':'transparent',border:'1px solid var(--line)',borderRadius:20,overflow:'hidden',transition:'background .3s,border-color .3s,box-shadow .3s',position:'relative'}}>
+                <button onClick={()=>setOpen(on?-1:i)} style={{width:'100%',textAlign:'left',padding:'clamp(22px,3vw,32px)',display:'flex',justifyContent:'space-between',alignItems:'center',gap:20}}>
+                  <div style={{display:'flex',alignItems:'center',gap:'clamp(18px,3vw,34px)',minWidth:0}}>
+                    <div style={{textAlign:'center',flexShrink:0}}>
+                      <div className="serif" style={{fontSize:'clamp(26px,3.4vw,40px)',fontWeight:600,color:'var(--coral)',lineHeight:1}}>{c.metric}</div>
+                      <div className="mono" style={{fontSize:10,color:'var(--muted)',marginTop:5,letterSpacing:0.5}}>{c.metricL}</div>
+                    </div>
+                    <div style={{minWidth:0}}>
+                      <span className="mono" style={{fontSize:11,color:'var(--muted)',letterSpacing:1}}>{c.tag}</span>
+                      <h3 className="serif" style={{fontSize:'clamp(19px,2.5vw,26px)',fontWeight:600,marginTop:6,lineHeight:1.15}}>{c.title}</h3>
+                    </div>
+                  </div>
+                  <motion.span animate={{rotate:on?45:0}} style={{fontSize:30,color:on?'var(--coral)':'var(--muted)',flexShrink:0,fontWeight:300,lineHeight:1}}>+</motion.span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {on && (
+                    <motion.div initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} transition={{duration:0.45,ease:[0.22,1,0.36,1]}} style={{overflow:'hidden'}}>
+                      <div style={{padding:'0 clamp(22px,3vw,32px) clamp(28px,3vw,36px)',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(210px,1fr))',gap:24}}>
+                        {[["Problem",c.problem,"var(--muted)"],["Approach",c.approach,"var(--sage)"],["Solution",c.solution,"var(--ink)"],["Outcome",c.outcome,"var(--coral)"]].map(([k,v,col],j)=>(
+                          <div key={j} style={{borderTop:'2px solid '+col,paddingTop:14}}>
+                            <div className="mono" style={{fontSize:11,letterSpacing:1.5,color:'var(--muted)',marginBottom:9,textTransform:'uppercase'}}>{k}</div>
+                            <p style={{fontSize:14.5,lineHeight:1.65,color:'var(--ink-2)'}}>{v}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </Reveal>
+          );
+        })}
+      </div>
+      <style>{`
+        .case-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--teal),var(--violet),var(--coral));transform:scaleY(0);transform-origin:top;transition:transform .32s ease}
+        .case-row:hover{border-color:var(--violet)!important;background:var(--white);box-shadow:0 16px 40px rgba(14,42,43,0.10)}
+        .case-row:hover::before{transform:scaleY(1)}
+      `}</style>
+    </Section>
+  );
+}
+
+/* ---------------- Education ---------------- */
+function Education(){
+  return (
+    <Section id="education" bg="halo" style={{background:'var(--porcelain-2)'}}>
+      <SectionHead n="06" kicker="Background" title="Foundations" />
+      {EDUCATION.map((c,i)=>(
+        <Reveal key={i}>
+          <div style={{display:'flex',gap:24,alignItems:'center',background:'var(--white)',border:'1px solid var(--line)',borderRadius:20,padding:'clamp(24px,3vw,34px)',maxWidth:720}}>
+            <div style={{width:52,height:52,borderRadius:14,background:'var(--sage-soft)',display:'grid',placeItems:'center',flexShrink:0,fontSize:24}}>🎓</div>
+            <div>
+              <h3 className="serif" style={{fontSize:'clamp(18px,2.3vw,23px)',fontWeight:600,lineHeight:1.2}}>{c.t}</h3>
+              <div style={{fontSize:15,color:'var(--ink-2)',marginTop:6}}>{c.org}</div>
+              <div className="mono" style={{fontSize:12.5,color:'var(--muted)',marginTop:8}}>{c.y}</div>
+            </div>
+          </div>
+        </Reveal>
+      ))}
+    </Section>
+  );
+}
+
+/* ---------------- Tools ---------------- */
+function Tools(){
+  return (
+    <Section id="tools" bg="driftwash">
+      <SectionHead n="07" kicker="Toolbox" title="Tools & technologies" />
+      <div style={{display:'flex',flexDirection:'column',gap:36}}>
+        {TOOL_GROUPS.map((grp,gi)=>(
+          <Reveal key={gi} delay={gi*0.08}>
+            <div style={{display:'grid',gridTemplateColumns:'220px 1fr',gap:24,alignItems:'center',borderTop:'1px solid var(--line)',paddingTop:24}} className="toolRow">
+              <div className="mono" style={{fontSize:12,letterSpacing:1.5,color:'var(--muted)',textTransform:'uppercase'}}>{grp.g}</div>
+              <div style={{display:'flex',flexWrap:'wrap',gap:12}}>
+                {grp.items.map((t,i)=>(
+                  <span key={t} className="mono tool-pill" style={{fontSize:14,padding:'11px 20px',borderRadius:100,border:'1.5px solid var(--ink)',background:'transparent',fontWeight:500,cursor:'default',position:'relative',overflow:'hidden'}}>
+                    <span className="tool-pill-txt" style={{position:'relative',zIndex:1}}>{t}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <style>{`
+        @media(max-width:640px){.toolRow{grid-template-columns:1fr!important;gap:14!important}}
+        .tool-pill{transition:transform .28s cubic-bezier(.22,1,.36,1),border-color .28s ease,color .28s ease,box-shadow .28s ease}
+        .tool-pill::before{content:'';position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(var(--violet),var(--coral));transition:height .3s cubic-bezier(.22,1,.36,1);z-index:0}
+        .tool-pill:hover{transform:translateY(-4px) scale(1.06);border-color:var(--coral);color:#fff;box-shadow:0 12px 26px rgba(108,92,231,0.3)}
+        .tool-pill:hover::before{height:100%}
+      `}</style>
+    </Section>
+  );
+}
+
+/* ---------------- Contact ---------------- */
+function Contact(){
+  const items=[
+    {k:"Email", v:"shewalekunal007@gmail.com", href:"mailto:shewalekunal007@gmail.com", icon:"✉"},
+    {k:"Phone", v:"+91 83901 38853", href:"tel:+918390138853", icon:"☎"},
+    {k:"LinkedIn", v:"linkedin.com/in/kunalshewale0909", href:"https://linkedin.com/in/kunalshewale0909", icon:"in"},
+  ];
+  return (
+    <Section id="contact" bg="aurora" dark style={{background:'var(--ink)',color:'var(--porcelain)'}}>
+      <div style={{maxWidth:760}}>
+        <Reveal>
+          <div style={{display:'flex',alignItems:'baseline',gap:20,marginBottom:6}}>
+            <span className="serif" style={{fontSize:'clamp(40px,7vw,88px)',fontWeight:600,color:'var(--coral)',lineHeight:0.9,fontStyle:'italic'}}>08</span>
+            <span className="eyebrow">Get in touch</span>
+          </div>
+          <h2 className="serif" style={{fontSize:'clamp(30px,4.6vw,54px)',fontWeight:500,letterSpacing:'-0.01em',lineHeight:1.05}}>
+            Let's build something <span style={{fontStyle:'italic',color:'var(--coral)'}}>clear</span>, useful, and impactful.
+          </h2>
+          <p style={{marginTop:22,fontSize:'clamp(16px,1.9vw,18.5px)',lineHeight:1.7,color:'rgba(246,243,236,0.72)',maxWidth:560}}>
+            If you're looking for a Business Analyst or Product Owner who brings structure, clarity, and delivery focus, I'd be happy to connect. Reach me directly through any of the below.
+          </p>
+        </Reveal>
+      </div>
+
+      <div style={{marginTop:'clamp(40px,5vw,60px)',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:16}}>
+        {items.map((it,i)=>(
+          <Reveal key={i} delay={i*0.09}>
+            <a href={it.href} target={it.href.startsWith('http')?'_blank':undefined} rel="noopener"
+              className="contact-card"
+              style={{display:'block',height:'100%',border:'1px solid rgba(246,243,236,0.16)',borderRadius:20,padding:'28px 26px',background:'rgba(246,243,236,0.03)',position:'relative',overflow:'hidden'}}>
+              <div className="mono contact-icon" style={{width:44,height:44,borderRadius:12,display:'grid',placeItems:'center',fontSize:18,background:'rgba(246,243,236,0.06)',color:'var(--coral)',marginBottom:20,transition:'all .3s ease'}}>{it.icon}</div>
+              <div className="mono" style={{fontSize:11,letterSpacing:1.5,color:'var(--sage)',textTransform:'uppercase'}}>{it.k}</div>
+              <div style={{fontSize:'clamp(15px,1.5vw,16.5px)',fontWeight:500,marginTop:8,wordBreak:'break-word',lineHeight:1.4}}>{it.v}</div>
+              <span className="contact-arrow mono" style={{position:'absolute',top:26,right:24,color:'var(--coral)',fontSize:18,transition:'transform .3s ease'}}>→</span>
+            </a>
+          </Reveal>
+        ))}
+      </div>
+      <style>{`
+        .contact-card{transition:transform .32s cubic-bezier(.22,1,.36,1),border-color .3s ease,background .3s ease,box-shadow .3s ease}
+        .contact-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--coral),var(--violet),var(--teal));transform:scaleY(0);transform-origin:top;transition:transform .32s ease}
+        .contact-card:hover{transform:translateY(-6px);border-color:var(--coral);background:rgba(246,243,236,0.07);box-shadow:0 24px 50px rgba(0,0,0,0.32)}
+        .contact-card:hover::before{transform:scaleY(1)}
+        .contact-card:hover .contact-icon{background:var(--coral);color:#fff;transform:scale(1.08)}
+        .contact-card:hover .contact-arrow{transform:translate(4px,-4px)}
+      `}</style>
+    </Section>
+  );
+}
+
+/* ---------------- Footer ---------------- */
+function Footer(){
+  return (
+    <footer style={{background:'var(--ink)',color:'var(--porcelain)',borderTop:'1px solid rgba(246,243,236,0.14)'}}>
+      <div className="wrap" style={{padding:'40px 32px',display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:16,alignItems:'center'}}>
+        <div className="serif" style={{fontWeight:600,fontSize:19}}>Kunal Shewale<span style={{color:'var(--coral)'}}>.</span></div>
+        <div className="mono" style={{fontSize:11.5,color:'rgba(246,243,236,0.55)'}}>Structured thinking. Clear requirements. Better delivery.</div>
+        <div className="mono" style={{fontSize:11.5,color:'rgba(246,243,236,0.4)'}}>© 2025</div>
+      </div>
+    </footer>
+  );
+}
+
+/* ---------------- Cursor & scroll tracers ---------------- */
+function ScrollTracer(){
+  const {scrollYProgress}=useScroll();
+  const w=useSpring(scrollYProgress,{stiffness:120,damping:28,restDelta:0.001});
+  return <motion.div className="scroll-tracer" style={{scaleX:w,transformOrigin:'0 50%',width:'100%'}}/>;
+}
+
+function CursorTracer(){
+  const wrapRef=useRef(null);
+  useEffect(()=>{
+    if(window.matchMedia('(pointer:coarse)').matches) return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const N=14; // longer, smoother trail
+    const wrap=wrapRef.current; if(!wrap) return;
+    const dots=Array.from(wrap.querySelectorAll('.comet-dot'));
+    const head=dots[0];
+    const halo=wrap.querySelector('.comet-halo');
+    let mx=innerWidth/2,my=innerHeight/2, hx=mx,hy=my, pulse=1, idle=1, lastMove=performance.now();
+    const xs=new Array(N).fill(mx), ys=new Array(N).fill(my);
+    let raf;
+    const move=e=>{mx=e.clientX;my=e.clientY;lastMove=performance.now();idle=1;};
+    const hot=e=>{const t=e.target.closest('a,button,input,textarea,[role=button]');
+      if(head)head.classList.toggle('hot',!!t);
+      if(halo)halo.classList.toggle('hot',!!t);};
+    const down=()=>{pulse=0.55;};
+    const up=()=>{pulse=1;};
+    const loop=()=>{
+      // head chases pointer quickly; trail eases with decreasing speed
+      xs[0]+=(mx-xs[0])*0.42; ys[0]+=(my-ys[0])*0.42;
+      for(let i=1;i<N;i++){ const k=0.42-(i/N)*0.18; xs[i]+=(xs[i-1]-xs[i])*k; ys[i]+=(ys[i-1]-ys[i])*k; }
+      // idle fade after 2.2s of no movement
+      if(performance.now()-lastMove>2200) idle+=(0.15-idle)*0.05; else idle+=(1-idle)*0.2;
+      // spring the visual pulse back to 1
+      pulse+=(1-pulse)*0.2;
+      for(let i=0;i<N;i++){
+        const d=dots[i]; if(!d)continue;
+        const s=(1-(i/N)*0.72)*(i===0?pulse:1);
+        d.style.transform=`translate(${xs[i]}px,${ys[i]}px) translate(-50%,-50%) scale(${s})`;
+        d.style.opacity=String((i===0?1:0.55*(1-i/N))*idle);
+      }
+      // soft halo lags further behind the head
+      hx+=(mx-hx)*0.16; hy+=(my-hy)*0.16;
+      if(halo){halo.style.transform=`translate(${hx}px,${hy}px) translate(-50%,-50%) scale(${pulse})`;halo.style.opacity=String(0.5*idle);}
+      raf=requestAnimationFrame(loop);
+    };
+    window.addEventListener('mousemove',move);
+    window.addEventListener('mouseover',hot);
+    window.addEventListener('mousedown',down);
+    window.addEventListener('mouseup',up);
+    loop();
+    return ()=>{window.removeEventListener('mousemove',move);window.removeEventListener('mouseover',hot);
+      window.removeEventListener('mousedown',down);window.removeEventListener('mouseup',up);cancelAnimationFrame(raf);};
+  },[]);
+  const tail=['var(--coral)','var(--coral)','var(--coral)','var(--violet)','var(--violet)','var(--violet)','var(--teal)','var(--teal)','var(--teal)','var(--amber)','var(--amber)','var(--amber)','var(--sage)','var(--sage)'];
+  return <div ref={wrapRef}>
+    <div className="comet-halo"/>
+    {Array.from({length:14}).map((_,i)=>(
+      <div key={i} className={"comet-dot"+(i===0?" comet-head":"")}
+        style={i===0?{}:{width:Math.max(3,9-i*0.4),height:Math.max(3,9-i*0.4),background:tail[i],opacity:0.4}}/>
+    ))}
+  </div>;
+}
+
+/* ---------------- App w/ scroll spy ---------------- */
+function App(){
+  const [active,setActive]=useState("about");
+  useEffect(()=>{
+    const io=new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)});
+    },{rootMargin:"-45% 0px -50% 0px"});
+    SECTIONS.forEach(s=>{const el=document.getElementById(s.id);if(el)io.observe(el)});
+    return ()=>io.disconnect();
+  },[]);
+  return (
+    <React.Fragment>
+      <ScrollTracer/>
+      <CursorTracer/>
+      <TopBar/>
+      <Rail active={active}/>
+      <Hero/>
+      <About/>
+      <Experience/>
+      <Skills/>
+      <Product/>
+      <Work/>
+      <Education/>
+      <Tools/>
+      <Contact/>
+      <Footer/>
+    </React.Fragment>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
