@@ -223,10 +223,23 @@ const EDUCATION = [
 ];
 
 const TOOL_GROUPS = [
-  {g:"Analysis & Delivery", items:["Jira","Confluence","Salesforce","Scrum","Postman"]},
-  {g:"Data & Reporting", items:["SQL","Excel","Power BI","Google Sheets"]},
-  {g:"Design & Wireframing", items:["Figma","FigJam","Whimsical"]},
+  {g:"Analysis & Reporting", items:["SQL","Excel","Google Sheets","Power BI"]},
+  {g:"Agile Delivery", items:["Jira","Confluence","Scrum","SDLC"]},
+  {g:"Documentation & Collaboration", items:["Confluence","BRD / FRD / SRS","User Stories"]},
+  {g:"Process Mapping & Design", items:["Whimsical","Workflow Analysis","Process Flows"]},
+  {g:"Wireframing", items:["Figma","FigJam","Whimsical"]},
+  {g:"Testing & Validation", items:["Postman","API Testing","UAT"]},
 ];
+
+/* ── Optional: extra industry-standard tools you can enable once you've used them.
+   Listing tools you haven't worked with can backfire in interviews, so these are
+   left out by default. To add any, drop them into the matching group above:
+   Analysis & Reporting → Tableau, Looker Studio
+   Agile Delivery       → Azure DevOps, Trello, Asana
+   Documentation        → Notion, Miro, Slack, Microsoft Teams
+   Process Mapping      → Lucidchart, draw.io, Miro
+   Wireframing          → Balsamiq
+   Testing & Validation → Swagger                                                   */
 
 /* ---------------- Living backgrounds ---------------- */
 function NodeCanvas({dark}){
@@ -402,9 +415,11 @@ const Section = ({id, children, style, bg, dark}) => (
 );
 
 /* ---------------- Sticky rail navigator ---------------- */
+const DARK_SECTIONS = ["product","contact"];
 function Rail({active}){
+  const onDark = DARK_SECTIONS.includes(active);
   return (
-    <nav className="rail" aria-label="Section navigation"
+    <nav className={"rail"+(onDark?" rail-on-dark":"")} aria-label="Section navigation"
       style={{position:'fixed',left:36,top:'50%',transform:'translateY(-50%)',zIndex:40}}>
       <ul className="rail-list">
         {SECTIONS.map((s)=>{
@@ -427,20 +442,22 @@ function Rail({active}){
         .rail-link{display:flex;align-items:center;gap:14px;padding:6px 0;text-decoration:none;position:relative}
         /* marker: a short hairline that grows + colours when active */
         .rail-marker{position:relative;width:24px;height:1.5px;flex-shrink:0;
-          background:var(--ink);opacity:0.18;border-radius:2px;transition:opacity .35s ease,width .35s ease}
+          background:var(--rail-fg,var(--ink));opacity:0.18;border-radius:2px;transition:opacity .35s ease,width .35s ease,background .4s ease}
         .rail-marker-line{position:absolute;left:0;top:50%;transform:translateY(-50%);
           width:38px;height:1.5px;border-radius:2px;background:var(--coral)}
         .rail-label{font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:500;letter-spacing:0.2px;
-          color:var(--ink);opacity:0.35;white-space:nowrap;
-          transition:opacity .35s ease,transform .35s ease,color .35s ease;transform-origin:left}
+          color:var(--rail-fg,var(--ink));opacity:0.35;white-space:nowrap;
+          transition:opacity .35s ease,transform .35s ease,color .4s ease;transform-origin:left}
         /* active */
         .rail-link.on .rail-marker{opacity:0;width:38px}
-        .rail-link.on .rail-label{opacity:1;color:var(--ink);transform:translateX(16px)}
+        .rail-link.on .rail-label{opacity:1;color:var(--rail-fg,var(--ink));transform:translateX(16px)}
         /* hover (non-active) */
         .rail-link:hover .rail-marker{opacity:0.5;width:32px}
-        .rail-link:hover .rail-label{opacity:0.8;transform:translateX(4px)}
+        .rail-link:hover .rail-label{opacity:0.85;transform:translateX(4px)}
         .rail-link.on:hover .rail-label{transform:translateX(16px)}
         .rail-link:focus-visible{outline:2px solid var(--coral);outline-offset:4px;border-radius:4px}
+        /* dark sections: flip foreground to porcelain for contrast */
+        .rail-on-dark{--rail-fg:var(--porcelain)}
         @media(max-width:1180px){.rail{display:none!important}}
       `}</style>
     </nav>
@@ -760,8 +777,8 @@ function Tools(){
       <div style={{display:'flex',flexDirection:'column',gap:36}}>
         {TOOL_GROUPS.map((grp,gi)=>(
           <Reveal key={gi} delay={gi*0.08}>
-            <div style={{display:'grid',gridTemplateColumns:'220px 1fr',gap:24,alignItems:'center',borderTop:'1px solid var(--line)',paddingTop:24}} className="toolRow">
-              <div className="mono" style={{fontSize:12,letterSpacing:1.5,color:'var(--muted)',textTransform:'uppercase'}}>{grp.g}</div>
+            <div style={{display:'grid',gridTemplateColumns:'240px 1fr',gap:28,alignItems:'start',borderTop:'1px solid var(--line)',paddingTop:24}} className="toolRow">
+              <div className="mono" style={{fontSize:11.5,letterSpacing:1.2,color:'var(--muted)',textTransform:'uppercase',lineHeight:1.4,paddingTop:4}}>{grp.g}</div>
               <div style={{display:'flex',flexWrap:'wrap',gap:12}}>
                 {grp.items.map((t,i)=>(
                   <span key={t} className="mono tool-pill" style={{fontSize:14,padding:'11px 20px',borderRadius:100,border:'1.5px solid var(--ink)',background:'transparent',fontWeight:500,cursor:'default',position:'relative',overflow:'hidden'}}>
